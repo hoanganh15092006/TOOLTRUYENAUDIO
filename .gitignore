@@ -1,0 +1,34 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*.class
+
+# Environment & credentials
+.env
+config/client_secrets.json
+config/youtube_token.json
+config/cookies.txt
+config/chrome_profile/
+chrome_profile/
+
+# Media output & temporary files
+output/*
+!output/.gitkeep
+assets/bg_images/*
+!assets/bg_images/.gitkeep
+assets/bg_videos/*
+!assets/bg_videos/.gitkeep
+assets/bgm/*
+!assets/bgm/.gitkeep
+assets/fonts/*
+!assets/fonts/.gitkeep
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

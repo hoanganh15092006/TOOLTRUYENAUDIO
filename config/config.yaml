@@ -1,0 +1,38 @@
+channel:
+  default_title: ''
+  default_topic: Trọng sinh báo thù giới thượng lưu
+  youtube_channel_name: Góc Truyện Audio
+script:
+  cliffhanger_word_target: 600
+  default_ending: happy
+  model_name: gemini-2.5-flash
+  part_word_limit: 1200
+  target_duration_minutes: 35
+  words_per_minute: 150
+tts:
+  bgm_volume_db: -24.0
+  chunk_size_sentences: 5
+  pitch: +0Hz
+  provider: edge-tts
+  rate: +0%
+  voice: vi-VN-HoaiMyNeural
+upload:
+  tiktok_auto_post: true
+  tiktok_save_draft: false
+  tiktok_user_data_dir: ./config/chrome_profile
+  youtube_category_id: '24'
+  youtube_privacy: public
+video:
+  bg_image_mode: auto_ai
+  box_color: black@0.65
+  font_color: white
+  font_size: 44
+  tiktok_bg_category: gameplay
+  tiktok_resolution:
+  - 1080
+  - 1920
+  tiktok_teaser_fade_seconds: 3
+  tiktok_teaser_seconds: 240
+  youtube_resolution:
+  - 1920
+  - 1080
