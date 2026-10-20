@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "suite_name": "TOOLTRUYENAUDIO_Self_Learning_Benchmarks",
+  "description": "Bộ kiểm thử chuẩn đánh giá chất lượng mã nguồn và hiệu năng các tool sau khi tích lũy kinh nghiệm",
+  "benchmarks": [
+    {
+      "id": "BM-SG-01",
+      "target_module": "src.script_gen",
+      "test_name": "Kịch bản truyện dài chuẩn hóa và ngắt đoạn",
+      "criteria": [
+        {"metric": "word_count_compliance", "target": ">= 90% thời lượng yêu cầu", "critical": true},
+        {"metric": "text_sanitization", "target": "Không chứa emoji, không chứa markup gây lỗi TTS", "critical": true},
+        {"metric": "pacing_structure", "target": "Đủ 3 hồi (Mở đầu, Xung đột, Kết thúc)", "critical": false}
+      ]
+    },
+    {
+      "id": "BM-TTS-01",
+      "target_module": "src.tts_engine",
+      "test_name": "Chuyển văn bản thành âm thanh & Phối âm",
+      "criteria": [
+        {"metric": "chunking_efficiency", "target": "Đoạn văn bản gửi engine <= 600 từ", "critical": true},
+        {"metric": "network_retry_handling", "target": "Có retry backoff khi gặp timeout/rate-limit", "critical": true},
+        {"metric": "audio_loudness_ducking", "target": "Voiceover -14 LUFS, BGM -24 dB khi nói", "critical": false}
+      ]
+    },
+    {
+      "id": "BM-VR-01",
+      "target_module": "src.video_renderer",
+      "test_name": "Hiệu suất Render Video YouTube (16:9) và TikTok (9:16)",
+      "criteria": [
+        {"metric": "ffmpeg_preset_optimal", "target": "Sử dụng preset veryfast và tune stillimage cho video dài", "critical": true},
+        {"metric": "aspect_ratio_accuracy", "target": "YouTube 1920x1080, TikTok 1080x1920 chuẩn 9:16", "critical": true},
+        {"metric": "temp_cleanup", "target": "Tự động xóa files trung gian sau render", "critical": true}
+      ]
+    },
+    {
+      "id": "BM-UP-01",
+      "target_module": "src.uploaders",
+      "test_name": "Kiểm tra an toàn xác thực và metadata upload",
+      "criteria": [
+        {"metric": "auth_token_refresh", "target": "Tự động refresh token OAuth2 khi hết hạn", "critical": true},
+        {"metric": "metadata_compliance", "target": "Tiêu đề, mô tả, tags không vượt quá độ dài giới hạn nền tảng", "critical": true}
+      ]
+    }
+  ]
+}

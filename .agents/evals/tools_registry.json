@@ -1,0 +1,115 @@
+{
+  "version": "1.0.0",
+  "project_name": "TOOLTRUYENAUDIO",
+  "last_updated": "2026-10-21T00:50:00+07:00",
+  "tools": [
+    {
+      "id": "tool-orch-01",
+      "name": "Main Orchestrator",
+      "path": "main.py",
+      "type": "cli_orchestrator",
+      "description": "Menu tương tác CLI và điều phối toàn bộ pipeline sản xuất Oneshot (>30m YouTube) và Teaser (4m TikTok)",
+      "entry_point": "main.py:interactive_menu / main.py:run_pipeline",
+      "dependencies": ["src.script_gen", "src.tts_engine", "src.media_fetcher", "src.video_renderer", "src.uploaders"]
+    },
+    {
+      "id": "tool-sg-01",
+      "name": "Story Script Generator",
+      "path": "src/script_gen/generator.py",
+      "type": "ai_generator",
+      "description": "Sinh kịch bản truyện audio dài (>30 phút, ~5000-7000 từ) chuẩn 3 hồi với Gemini API hoặc offline mock",
+      "entry_point": "src.script_gen.generator:StoryScriptGenerator.generate_script",
+      "dependencies": ["google-generativeai"]
+    },
+    {
+      "id": "tool-tts-01",
+      "name": "Edge TTS Synthesizer",
+      "path": "src/tts_engine/synthesizer.py",
+      "type": "audio_synthesizer",
+      "description": "Chuyển văn bản thành giọng đọc tiếng Việt truyền cảm qua Microsoft Edge-TTS với chunking tự động",
+      "entry_point": "src.tts_engine.synthesizer:TTSEngine.synthesize",
+      "dependencies": ["edge-tts", "asyncio"]
+    },
+    {
+      "id": "tool-mix-01",
+      "name": "Audio & BGM Mixer",
+      "path": "src/tts_engine/audio_mixer.py",
+      "type": "audio_processor",
+      "description": "Trộn voiceover với nhạc nền BGM, chuẩn hóa âm lượng LUFS và tự động ducking",
+      "entry_point": "src.tts_engine.audio_mixer:AudioMixer.mix",
+      "dependencies": ["pydub", "ffmpeg"]
+    },
+    {
+      "id": "tool-img-01",
+      "name": "AI Image Generator",
+      "path": "src/media_fetcher/image_generator.py",
+      "type": "media_fetcher",
+      "description": "Tạo ảnh nền 16:9 điện ảnh qua Pollinations/Unsplash hoặc fallback cinematic background",
+      "entry_point": "src.media_fetcher.image_generator:ImageGenerator.generate_or_fetch",
+      "dependencies": ["requests", "pillow"]
+    },
+    {
+      "id": "tool-vidfetch-01",
+      "name": "Background Video Fetcher",
+      "path": "src/media_fetcher/video_fetcher.py",
+      "type": "media_fetcher",
+      "description": "Tìm kiếm/tải video nền Gameplay hoặc Satisfying hoặc sinh video chuyển động tổng hợp",
+      "entry_point": "src.media_fetcher.video_fetcher:VideoFetcher.fetch_vertical_background",
+      "dependencies": ["requests", "ffmpeg"]
+    },
+    {
+      "id": "tool-vrend-yt-01",
+      "name": "YouTube 16:9 Video Renderer",
+      "path": "src/video_renderer/youtube_renderer.py",
+      "type": "video_renderer",
+      "description": "Render video YouTube Full HD (1920x1080) kết hợp ảnh tĩnh và audio dài tối ưu tài nguyên",
+      "entry_point": "src.video_renderer.youtube_renderer:YouTubeRenderer.render",
+      "dependencies": ["ffmpeg"]
+    },
+    {
+      "id": "tool-vrend-tt-01",
+      "name": "TikTok 9:16 Video Renderer",
+      "path": "src/video_renderer/tiktok_renderer.py",
+      "type": "video_renderer",
+      "description": "Render teaser TikTok dọc (1080x1920) 4 phút có phụ đề karaoke/word-by-word",
+      "entry_point": "src.video_renderer.tiktok_renderer:TikTokRenderer.render",
+      "dependencies": ["ffmpeg"]
+    },
+    {
+      "id": "tool-up-yt-01",
+      "name": "YouTube Uploader",
+      "path": "src/uploaders/youtube_uploader.py",
+      "type": "uploader",
+      "description": "Tự động đăng tải video lên YouTube với tiêu đề, mô tả, tags chuẩn SEO",
+      "entry_point": "src.uploaders.youtube_uploader:YouTubeUploader.upload",
+      "dependencies": ["google-api-python-client", "google-auth-oauthlib"]
+    },
+    {
+      "id": "tool-up-tt-01",
+      "name": "TikTok Uploader",
+      "path": "src/uploaders/tiktok_uploader.py",
+      "type": "uploader",
+      "description": "Đăng tải video teaser lên TikTok tự động hóa",
+      "entry_point": "src.uploaders.tiktok_uploader:TikTokUploader.upload",
+      "dependencies": ["playwright", "requests"]
+    },
+    {
+      "id": "tool-ops-learner-01",
+      "name": "Learner & Sync CLI",
+      "path": ".agents/skills/tool-learner-evaluator/scripts/learner_ops.py",
+      "type": "learner_ops",
+      "description": "Ghi nhận traces, cập nhật heuristics và điều phối vòng lặp tự học",
+      "entry_point": ".agents/skills/tool-learner-evaluator/scripts/learner_ops.py",
+      "dependencies": ["python3"]
+    },
+    {
+      "id": "tool-ops-sync-01",
+      "name": "GitHub Auto-Sync & Devlog Generator",
+      "path": ".agents/skills/tool-learner-evaluator/scripts/sync_to_github.py",
+      "type": "git_sync",
+      "description": "Tự động sinh file Devlog, cập nhật mục lục và commit/push lên GitHub",
+      "entry_point": ".agents/skills/tool-learner-evaluator/scripts/sync_to_github.py",
+      "dependencies": ["git", "python3"]
+    }
+  ]
+}
